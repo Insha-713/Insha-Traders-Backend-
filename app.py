@@ -3,11 +3,14 @@ from dotenv import load_dotenv
 import os
 import requests
 import smtplib
+from flask_cors 
+import CORS
 from email.message import EmailMessage
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
@@ -20,10 +23,10 @@ EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 def contact():
 
     data = request.get_json()
-
     name = data.get("name")
     email = data.get("email")
-    phone = data.get("phone")
+    phone = data.get("mobile")
+    location = data.get("location")
     message = data.get("message")
 
     telegram_message = f"""
@@ -31,7 +34,8 @@ def contact():
 
 👤 Name: {name}
 📧 Email: {email}
-📱 Phone: {phone}
+📱 Mobile: {phone}
+📍 Location: {location}
 
 💬 Message:
 {message}
