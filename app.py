@@ -3,8 +3,7 @@ from dotenv import load_dotenv
 import os
 import requests
 import smtplib
-from flask_cors 
-import CORS
+from flask_cors import CORS
 from email.message import EmailMessage
 
 load_dotenv()
