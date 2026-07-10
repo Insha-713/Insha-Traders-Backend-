@@ -49,31 +49,31 @@ def contact():
         }
     )
 
-    try:
-        msg = EmailMessage()
-        msg["Subject"] = "Thank You for Contacting Insha Traders"
-        msg["From"] = EMAIL_ADDRESS
-        msg["To"] = email
+#     try:
+#         msg = EmailMessage()
+#         msg["Subject"] = "Thank You for Contacting Insha Traders"
+#         msg["From"] = EMAIL_ADDRESS
+#         msg["To"] = email
 
-        msg.set_content(
-            f"""
-Hello {name},
+#         msg.set_content(
+#             f"""
+# Hello {name},
 
-Thank you for contacting Insha Traders.
+# Thank you for contacting Insha Traders.
 
-We have received your inquiry and our team will contact you shortly.
+# We have received your inquiry and our team will contact you shortly.
 
-Regards,
-Insha Traders
-"""
-        )
+# Regards,
+# Insha Traders
+# """
+#         )
 
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-            smtp.send_message(msg)
+#         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+#             smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+#             smtp.send_message(msg)
 
-    except Exception as e:
-        print(e)
+#     except Exception as e:
+#         print(e)
 
     return jsonify({"success": True})
 
