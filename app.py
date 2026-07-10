@@ -2,11 +2,10 @@ from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import os
 import requests
-import smtplib
 from flask_cors import CORS
-from email.message import EmailMessage
-
+import resend
 load_dotenv()
+resend.api_key = os.getenv("RESEND_API_KEY")
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -14,10 +13,6 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-
-EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
-EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-
 
 @app.route("/contact", methods=["POST"])
 def contact():
@@ -48,34 +43,26 @@ def contact():
             "text": telegram_message
         }
     )
+try:
+    resend.Emails.send({
+        "from": "onboarding@resend.dev",
+        "to": [email],
+        "subject": "Thank You for Contacting Insha Traders",
+        "html": f"""
+        <h2>Hello {name},</h2>
 
-#     try:
-#         msg = EmailMessage()
-#         msg["Subject"] = "Thank You for Contacting Insha Traders"
-#         msg["From"] = EMAIL_ADDRESS
-#         msg["To"] = email
+        <p>Thank you for contacting Insha Traders.</p>
 
-#         msg.set_content(
-#             f"""
-# Hello {name},
+        <p>We have received your inquiry and our team will contact you shortly.</p>
 
-# Thank you for contacting Insha Traders.
+        <p><strong>Regards,<br>Insha Traders</strong></p>
+        """
+    })
 
-# We have received your inquiry and our team will contact you shortly.
+except Exception as e:
+    print("EMAIL ERROR:", e)
 
-# Regards,
-# Insha Traders
-# """
-#         )
-
-#         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-#             smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-#             smtp.send_message(msg)
-
-#     except Exception as e:
-#         print(e)
-
-    return jsonify({"success": True})
+return jsonify({"success": True})
 
 
 @app.route("/")
