@@ -12,7 +12,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+CHAT_ID = os.getenv("CHAT_ID") 
 
 @app.route("/contact", methods=["POST"])
 def contact():
@@ -43,26 +43,26 @@ def contact():
             "text": telegram_message
         }
     )
-try:
-    resend.Emails.send({
-        "from": "onboarding@resend.dev",
-        "to": [email],
-        "subject": "Thank You for Contacting Insha Traders",
-        "html": f"""
-        <h2>Hello {name},</h2>
+    try:
+        resend.Emails.send({
+            "from": "onboarding@resend.dev",
+            "to": [email],
+            "subject": "Thank You for Contacting Insha Traders",
+            "html": f"""
+            <h2>Hello {name},</h2>
 
-        <p>Thank you for contacting Insha Traders.</p>
+            <p>Thank you for contacting Insha Traders.</p>
 
-        <p>We have received your inquiry and our team will contact you shortly.</p>
+            <p>We have received your inquiry and our team will contact you shortly.</p>
 
-        <p><strong>Regards,<br>Insha Traders</strong></p>
-        """
-    })
+            <p><strong>Regards,<br>Insha Traders</strong></p>
+            """
+        })
+    except Exception as e:
+        print("EMAIL ERROR:", e)
+        return jsonify({"success": False, "error": str(e)})
 
-except Exception as e:
-    print("EMAIL ERROR:", e)
-
-return jsonify({"success": True})
+    return jsonify({"success": True})
 
 
 @app.route("/")
