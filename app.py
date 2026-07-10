@@ -49,18 +49,24 @@ def contact():
             "to": [email],
             "subject": "Thank You for Contacting Insha Traders",
             "html": f"""
-            <h2>Hello {name},</h2>
+            <h2>Thank You for Contacting Insha Traders</h2>
 
-            <p>Thank you for contacting Insha Traders.</p>
+            <p>Dear {name},</p>
 
-            <p>We have received your inquiry and our team will contact you shortly.</p>
+            <p>We have successfully received your inquiry.</p>
 
-            <p><strong>Regards,<br>Insha Traders</strong></p>
+            <p>Our team will review your requirements and contact you shortly.</p>
+
+            <p>For urgent assistance, please call us directly.</p>
+
+            <p>Regards,<br>
+            Insha Traders</p>
+        
             """
         })
     except Exception as e:
         print("EMAIL ERROR:", e)
-        return jsonify({"success": False, "error": str(e)})
+        return jsonify({"success": False, "error": str(e)}),500
 
     return jsonify({"success": True})
 
